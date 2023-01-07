@@ -13,10 +13,9 @@ class SoccerPlayer:
         self.Ychange = 0
         self.Xchange = 0
 
-
-    def draw(self):
+    def draw(self, is_collide):
         if self.is_not_on_floor():
-            self.plyer_up_movement()
+            self.plyer_up_movement(is_collide)
 
         self.x = self.x + self.Xchange
         self.y = self.y + self.Ychange
@@ -28,10 +27,11 @@ class SoccerPlayer:
         self.Ychange = hieght
 
     # how the plyer will move when he is in the air
-    def plyer_up_movement(self):
+    def plyer_up_movement(self, is_collide):
         # plyer is in the air
         if self.y < self.floor:
             self.Ychange += self.gravity
+            self.collide(is_collide)
 
         # plyer go under floor
         if self.y >= self.floor:
@@ -49,5 +49,10 @@ class SoccerPlayer:
     def boundaries(self):
         if self.x < 0:
             self.x = 0
-        if self.x > 845:
-            self.x = 845
+        if self.x > 870:
+            self.x = 870
+
+    def collide(self, is_collide):
+        if is_collide:
+            self.Ychange = self.gravity
+            self.Xchange = 0
