@@ -18,7 +18,6 @@ class Ball:
         self.x_change = x_change
         self.y_change = y_change
 
-
     def draw(self):
         self.y_change = self.gravity + self.y_change
         self.x_change = self.x_change * 0.995
@@ -26,7 +25,7 @@ class Ball:
         self.y += self.y_change
         self.boundaries()
         if self.x_change >= 2 or self.x_change <= -2:
-            self.fliper = (self.fliper + int(self.x_change*2))
+            self.fliper = (self.fliper + int(self.x_change * 2))
         elif (2 > self.x_change > 0.1) or (-2 < self.x_change < -0.1):
             self.fliper = self.fliper + 2
         elif 0.1 < self.x < 0.3 or -0.1 > self.x > -0.3:
@@ -48,3 +47,8 @@ class Ball:
         if self.x < 60:
             self.x = 60
             self.x_change = (-1 * self.x_change) / 1.5
+
+        def collide_crossbar(collide: bool):
+            if collide:
+                self.x_change = (-1 * self.x_change) / 1.5
+                self.y_change = (-1 * self.y_change) / 1.2
