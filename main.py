@@ -6,6 +6,7 @@ import soccer_player
 import crossbar
 import ball
 import goal_line
+
 # defines
 floor = 440
 gravity = 7
@@ -37,7 +38,7 @@ left_goal_line = goal_line.Goal_Line('goal_line2.jpg', 38, 580, screen, 0.9)
 right_goal_line = goal_line.Goal_Line('goal_line2.jpg', 932, 580, screen, 0.9)
 
 # ball
-ball = ball.Ball('ball.png', 450, 100, screen,0.7)
+ball = ball.Ball('ball.png', 885, 100, screen, 0.7)
 
 # defines
 up_was_pressed = False
