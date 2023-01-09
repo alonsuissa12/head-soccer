@@ -22,9 +22,7 @@ class Ball:
 
     def draw(self):
         self.collide_crossbar()
-        print(self.y_change, end=", ")
         self.y_change = self.gravity + self.y_change
-        print(self.y_change)
         self.x_change = self.x_change * 0.995
         self.x += self.x_change
         self.y += self.y_change
@@ -61,8 +59,12 @@ class Ball:
         crossbar_hight = 350
         x_deflect = 2
         collide = ((crossbar_hight < self.y + 96 < crossbar_hight + 180) and (crossbar_width >= self.x >= 0))
-        collide = collide or ((crossbar_hight < self.y + 96 < crossbar_hight + 180) and (910 >= self.x >= 910 - crossbar_width))
+        collide = collide or (
+                    (crossbar_hight < self.y + 96 < crossbar_hight + 180) and (910 >= self.x >= 910 - crossbar_width))
         if collide:
+            if self.x_change == 0 and self.y_change == 0:
+                self.x_change = 4
+                self.y_change = 4
             if 0 <= self.y_change < 1:
                 self.y_change = -self.gravity
             else:
@@ -72,4 +74,14 @@ class Ball:
                     self.x_change += x_deflect
                 if 850 + 35 >= self.x >= 850:
                     self.x_change += -1 * x_deflect
+
+    def collide_player(self, p_x, p_y, p_x_change, p_y_change):
+        if (p_x + 50 > self.x > p_x - 50) and (p_y + 50 > self.y > p_y - 50):
+            if self.x < p_x:
+                self.x_change = -1 * math.fabs(p_x_change * 2)
+                self.y_change = p_y_change * 2
+            else:
+                self.x_change = math.fabs(p_x_change * 2)
+                self.y_change = p_y_change * 2
+
 

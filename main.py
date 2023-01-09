@@ -38,7 +38,7 @@ left_goal_line = goal_line.Goal_Line('goal_line2.jpg', 38, 580, screen, 0.9)
 right_goal_line = goal_line.Goal_Line('goal_line2.jpg', 932, 580, screen, 0.9)
 
 # ball
-ball = ball.Ball('ball.png', 885, 100, screen, 0.7)
+ball = ball.Ball('ball.png', 460, 100, screen, 0.7)
 
 # defines
 up_was_pressed = False
@@ -81,10 +81,10 @@ while running:
                 w_was_pressed = True
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_UP and up_was_pressed and not right_player.is_not_on_floor():
-                right_player.jump(-48)
+                right_player.jump(-50)
                 up_was_pressed = False
             if event.key == pygame.K_w and w_was_pressed and not left_player.is_not_on_floor():
-                left_player.jump(-48)
+                left_player.jump(-50)
                 w_was_pressed = False
 
     # collide check
@@ -92,6 +92,8 @@ while running:
                             or right_crossbar.is_collide_crossbar(left_player.x + 80, left_player.y)
     is_right_plyer_collide = left_crossbar.is_collide_crossbar(right_player.x + 20, right_player.y) \
                              or right_crossbar.is_collide_crossbar(right_player.x + 80, right_player.y)
+    ball.collide_player(left_player.x,left_player.y,left_player.Xchange, left_player.Ychange)
+    ball.collide_player(right_player.x, right_player.y, right_player.Xchange, right_player.Ychange)
     ball.draw()
     left_goal_line.draw()
     right_goal_line.draw()

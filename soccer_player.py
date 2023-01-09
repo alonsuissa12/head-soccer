@@ -12,10 +12,16 @@ class SoccerPlayer:
         self.gravity = gravity
         self.Ychange = 0
         self.Xchange = 0
+        self.jump_timer = 10
 
     def draw(self, is_collide):
         if self.is_not_on_floor():
+            if self.jump_timer > 0:
+                self.jump_timer -= 1
+                self.Ychange -= self.gravity *0.2
             self.plyer_up_movement(is_collide)
+        else:
+            self.jump_timer = 10
 
         self.x = self.x + self.Xchange
         self.y = self.y + self.Ychange
@@ -25,6 +31,7 @@ class SoccerPlayer:
 
     def jump(self, hieght):
         self.Ychange = hieght
+
 
     # how the plyer will move when he is in the air
     def plyer_up_movement(self, is_collide):
