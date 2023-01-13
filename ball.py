@@ -47,8 +47,8 @@ class Ball:
         if self.y > self.floor:
             self.y = self.floor
             self.y_change = (-1 * self.y_change) / 1.2
-        if self.x > 910:
-            self.x = 910
+        if self.x > 950:
+            self.x = 950
             self.x_change = (-1 * self.x_change) / 1.5
         if self.x < 0:
             self.x = 0
@@ -56,32 +56,51 @@ class Ball:
 
     def collide_crossbar(self):
         crossbar_width = 50
-        crossbar_hight = 350
+        crossbar_hight = 360
         x_deflect = 2
-        collide = ((crossbar_hight < self.y + 96 < crossbar_hight + 180) and (crossbar_width >= self.x >= 0))
+        collide = ((crossbar_hight - 50 < self.y + 30 < crossbar_hight + 50) and (crossbar_width >= self.x >= 0))
         collide = collide or (
-                    (crossbar_hight < self.y + 96 < crossbar_hight + 180) and (910 >= self.x >= 910 - crossbar_width))
+                (crossbar_hight - 50 < self.y + 30 < crossbar_hight + 50) and (950 >= self.x >= 950 - crossbar_width))
         if collide:
-            if self.x_change == 0 and self.y_change == 0:
-                self.x_change = 4
-                self.y_change = 4
-            if 0 <= self.y_change < 1:
-                self.y_change = -self.gravity
-            else:
+            if 0 <= self.x_change < 2:
+                self.x_change *= 2
+            if self.y_change > 0:
+                self.y_change = self.gravity * 5
+                if self.x > 450:
+                    self.x_change += 2
+                else:
+                    self.x_change -= 2
+
+            self.x_change = (-1 * self.x_change) / 1.5
+            self.y_change = (-1 * self.y_change) / 1.1
+            if crossbar_width >= self.x >= 35:
+                self.x_change += x_deflect
+            if 850 + 35 >= self.x >= 850:
+                self.x_change += -1 * x_deflect
+
+    def collide_player(self, p_x, p_y, p_x_change, p_y_change, is_left_player):
+        if is_left_player:
+            if (p_x + 100 > self.x > p_x - 30) and (p_y + 50 > self.y > p_y - 50):
                 self.x_change = (-1 * self.x_change) / 1.5
                 self.y_change = (-1 * self.y_change) / 1.2
-                if crossbar_width >= self.x >= 35:
-                    self.x_change += x_deflect
-                if 850 + 35 >= self.x >= 850:
-                    self.x_change += -1 * x_deflect
-
-    def collide_player(self, p_x, p_y, p_x_change, p_y_change):
-        if (p_x + 50 > self.x > p_x - 50) and (p_y + 50 > self.y > p_y - 50):
-            if self.x < p_x:
-                self.x_change = -1 * math.fabs(p_x_change * 2)
-                self.y_change = p_y_change * 2
-            else:
-                self.x_change = math.fabs(p_x_change * 2)
-                self.y_change = p_y_change * 2
-
-
+                self.x_change += p_x_change * 5
+                self.y_change += p_y_change * 2
+                self.x_change += 1
+        #         if self.x < p_x -30:
+        #             self.x_change = -1 * math.fabs(p_x_change * 2) - 1 * self.x_change
+        #             self.y_change = p_y_change * 1.3 + 0.7 * self.y_change
+        #         else:
+        #             self.x_change = math.fabs(p_x_change * 2) - 1 * self.x_change
+        #             self.y_change = p_y_change * 1.3 + 0.7 * self.x_change
+        # # left player
+        elif (p_x + 100 > self.x > p_x - 30) and (p_y + 50 > self.y > p_y - 50):
+            self.x_change = (-1 * self.x_change) / 1.5
+            self.y_change = (-1 * self.y_change) / 1.2
+            self.x_change += p_x_change * 2
+            self.y_change += p_y_change * 2
+            # if self.x > p_x + 100:
+            #     self.x_change = -1 * math.fabs(p_x_change * 2) - 1 * self.x_change
+            #     self.y_change = p_y_change * 1.3 + 0.7 * self.y_change
+            # else:
+            #     self.x_change = math.fabs(p_x_change * 2) - 1 * self.x_change
+            #     self.y_change = p_y_change * 1.3 + 0.7 * self.x_change
